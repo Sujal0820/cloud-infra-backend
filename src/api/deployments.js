@@ -17,22 +17,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/init-db", async (req, res) => {
-  try {
-    await db.query(`
-      CREATE TABLE IF NOT EXISTS deployments (
-        id SERIAL PRIMARY KEY,
-        selected_resources JSONB,
-        status VARCHAR(50),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    res.json({ message: "Database initialized" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
 module.exports = router;
