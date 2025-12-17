@@ -1,12 +1,10 @@
-const { Client } = require("pg");
+const { Pool } = require("pg");
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 });
 
-client
-  .connect()
-  .then(() => console.log("Connected to DB"))
-  .catch((err) => console.error("DB Error:", err));
-
-module.exports = client;
+module.exports = {
+  query: (text, params) => pool.query(text, params)
+};
